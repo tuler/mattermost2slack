@@ -24,7 +24,7 @@ Copy this file from the mattermost server to your local machine to make the next
 To list all exported channels, execute the following command, where <bulk.json> is the file generated in the previous step.
 
 ```
-cat <bulk.json> | node channels.js
+cat <bulk.json> | node channels.js | sort
 ```
 
 Now, for each desired channel, execute the following command:
