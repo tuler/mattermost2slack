@@ -1,6 +1,6 @@
 #!/usr/bin/node
 
-var lineReader = require("readline").createInterface({
+const lineReader = require("readline").createInterface({
   input: process.stdin,
 });
 

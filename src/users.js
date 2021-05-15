@@ -6,8 +6,8 @@ var lineReader = require("readline").createInterface({
 
 lineReader.on("line", (input) => {
   const line = JSON.parse(input);
-  if (line.type == "channel") {
+  if (line.type == "user") {
     const channel = line.channel;
-    process.stdout.write(`${channel.name}\t${channel.display_name}\n`);
+    process.stdout.write(`${input}\n`);
   }
 });
