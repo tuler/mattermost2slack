@@ -19,11 +19,14 @@ export const channels = () =>
         record.type == "channel" ? (record as ChannelRecord).channel : undefined
     );
 
-export const posts = (channel?: string) =>
+export const posts = (channels: string[] = []) =>
     transform<Record, Post | undefined>((record) => {
         if (record.type == "post") {
             const post = (record as PostRecord).post;
-            if ((channel && post.channel === channel) || !channel) {
+            if (
+                (channels.length > 0 && channels.indexOf(post.channel) >= 0) ||
+                channels.length == 0
+            ) {
                 return post;
             }
         }

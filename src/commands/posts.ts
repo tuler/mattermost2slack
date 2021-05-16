@@ -5,7 +5,7 @@ import slack from "../slack";
 import { posts } from "../filter";
 
 interface Args {
-    channel?: string;
+    channel?: string[];
 }
 
 export const command = ["posts"];
@@ -14,6 +14,9 @@ export const describe = "Export posts in CSV format";
 export const builder = (yargs: Argv) => {
     return yargs.option("channel", {
         describe: "Filter by channel",
+        array: true,
+        type: "array",
+        coerce: (array) => array.flatMap((v: string) => v.split(",")),
     });
 };
 
