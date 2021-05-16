@@ -23,9 +23,10 @@ export default (options?: SlackOptions) =>
     transform<Post>((post, callback) => {
         const { includeMessage = true, includeReplies = true } = options || {};
 
+        const messages: SlackMessage[] = [];
         // convert message
         if (includeMessage) {
-            callback(null, {
+            messages.push({
                 timestamp: convertTimestamp(post.create_at),
                 channel: post.channel,
                 user: post.user,
@@ -36,13 +37,15 @@ export default (options?: SlackOptions) =>
         // convert post replies
         if (includeReplies) {
             const replies = post.replies || [];
-            replies.forEach((reply) => {
-                callback(null, {
+            messages.push(
+                ...replies.map((reply) => ({
                     timestamp: convertTimestamp(reply.create_at),
                     channel: post.channel,
                     user: reply.user,
                     message: cleanMessage(reply.message),
-                });
-            });
+                }))
+            );
         }
+
+        callback(null, ...messages);
     });
