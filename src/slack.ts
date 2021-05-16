@@ -11,6 +11,9 @@ export type SlackMessage = {
 // slack timestamp goes to second (not millisecond)
 const convertTimestamp = (ts: number): number => Math.floor(ts / 1000);
 
+// getting rid of escaped quotes, because
+const cleanMessage = (str: string): string => str.replace(/\\"/g, '"');
+
 export interface SlackOptions {
     includeMessage?: boolean;
     includeReplies?: boolean;
@@ -26,7 +29,7 @@ export default (options?: SlackOptions) =>
                 timestamp: convertTimestamp(post.create_at),
                 channel: post.channel,
                 user: post.user,
-                message: post.message,
+                message: cleanMessage(post.message),
             });
         }
 
@@ -38,7 +41,7 @@ export default (options?: SlackOptions) =>
                     timestamp: convertTimestamp(reply.create_at),
                     channel: post.channel,
                     user: reply.user,
-                    message: reply.message,
+                    message: cleanMessage(reply.message),
                 });
             });
         }
